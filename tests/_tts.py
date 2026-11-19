@@ -21,7 +21,10 @@ from __future__ import annotations
 import ast
 import hashlib
 import json
+import os
+import pwd
 import random
+import unittest
 from pathlib import Path
 from typing import Any, Callable
 
@@ -59,6 +62,17 @@ SETTINGS = {"beta": 0.1, "lr": 1e-06, "epochs": 2, "micro_batch": 2, "grad_accum
 N_PAIRS = 12
 SPEAKERS = 12
 ZIP = b"PK\x03\x04"
+
+
+def run_user() -> str:
+    """The container's `<uid>:<gid>` in fixture requests and records: the uid running the tests and its primary group,
+    so the output directories the tests create are owned by the container's uid (EXT-63) whoever runs them. The launch
+    rules refuse root, so a test that needs it skips under uid 0."""
+    uid = os.getuid()
+    if uid == 0:
+        raise unittest.SkipTest("the launch rules refuse a container running as root (uid 0); run the tests as a "
+                                "non-root user")
+    return f"{uid}:{pwd.getpwuid(uid).pw_gid}"
 
 
 def sha(data: bytes) -> str:
@@ -408,7 +422,7 @@ class TtsScenario:
                            "venv_lock_sha256": file_sha256(self.runtime / "uv.lock")},
                "framework": {"name": "torch", "version": "2.5.1+cu124", "commit": None},
                "training_seed": SEED, "gpus": True, "argv": self.argv(), "mounts": self.mounts(), "tmpfs": ["/tmp"],
-               "network": "none", "network_reason": None, "user": "1000:1000", "env_names": list(ENV_NAMES),
+               "network": "none", "network_reason": None, "user": run_user(), "env_names": list(ENV_NAMES),
                "gpu_est_h": 0.1, "gpu_used_h": 3.12, "output_dir": str(self.stage_out),
                "output_root": str(self.output_root),
                "gpu_step_sha256": file_sha256(self.host_work / "bin" / "gpu-step.sh"), "allow_network": False,
