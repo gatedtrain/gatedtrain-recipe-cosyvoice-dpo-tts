@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.egg-info/
+build/
+dist/
+runtime/.venv/
+runtime/eval/.venv/
+runtime/eval/ecapa-cache/
+runtime/src/
+runtime/out/
+runtime/models/*/
+runtime/data-source/*.tar.gz
+runtime/data-source/unpacked-*/
+*.pyc
+.pytest_cache/
+.DS_Store

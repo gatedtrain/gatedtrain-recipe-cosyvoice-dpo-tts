@@ -1,0 +1,5 @@
+{"audio_seconds": 5.6, "error": null, "item": "hard-test:abbr:8af6d619dc05", "wall_seconds": 9.476, "wav": "wav/hard-test__abbr__8af6d619dc05.wav"}
+{"audio_seconds": 5.68, "error": null, "item": "hard-test:date:2d02d5083d4b", "wall_seconds": 2.178, "wav": "wav/hard-test__date__2d02d5083d4b.wav"}
+{"audio_seconds": 3.32, "error": null, "item": "hard-test:homograph:aaff2b58f000", "wall_seconds": 1.753, "wav": "wav/hard-test__homograph__aaff2b58f000.wav"}
+{"audio_seconds": 14.0, "error": null, "item": "hard-test:long:2db1b3e09dc1", "wall_seconds": 3.506, "wav": "wav/hard-test__long__2db1b3e09dc1.wav"}
+{"audio_seconds": 8.56, "error": null, "item": "hard-test:money:1faee778e1e3", "wall_seconds": 2.995, "wav": "wav/hard-test__money__1faee778e1e3.wav"}

@@ -1,0 +1,172 @@
+{
+ "baseline": "<out>/test-base-score-v2",
+ "baseline_scores_sha256": "sha256:47edc11277d92515e7601c771bd0a602fdb75bb2298576aaa0901f4deb603813",
+ "candidate": "<out>/test-dpo-train-k6-final-score-v2",
+ "candidate_scores_sha256": "sha256:8a08c6f8f686ff9b75db2fffb5ade55d36d3a55421d09234c1b36174257244a8",
+ "clauses": [
+  {
+   "alpha": 0.025,
+   "blocking": true,
+   "direction": "lower_is_better",
+   "margin": 0.0,
+   "mean_diff": -0.03778,
+   "metric": "wer_qwen_canon",
+   "n": 450,
+   "name": "quality",
+   "type": "superiority",
+   "upper_bound": -0.02589,
+   "verdict": "PASS"
+  },
+  {
+   "alpha": 0.025,
+   "blocking": true,
+   "direction": "higher_is_better",
+   "lower_bound": -0.00267,
+   "margin": 0.01,
+   "mean_diff": 0.00121,
+   "metric": "sim_prompt",
+   "n": 450,
+   "name": "speaker_guard",
+   "type": "non_inferiority",
+   "verdict": "PASS"
+  }
+ ],
+ "descriptive": {
+  "candidate": {
+   "per_category_wer_qwen_canon": {
+    "abbr": {
+     "arm": 0.0305,
+     "baseline": 0.0349
+    },
+    "date": {
+     "arm": 0.0125,
+     "baseline": 0.0481
+    },
+    "homograph": {
+     "arm": 0.0,
+     "baseline": 0.0
+    },
+    "long": {
+     "arm": 0.0466,
+     "baseline": 0.0536
+    },
+    "money": {
+     "arm": 0.176,
+     "baseline": 0.24
+    },
+    "name": {
+     "arm": 0.1954,
+     "baseline": 0.2385
+    },
+    "natural_long": {
+     "arm": 0.0136,
+     "baseline": 0.0193
+    },
+    "number": {
+     "arm": 0.0667,
+     "baseline": 0.2267
+    },
+    "twister": {
+     "arm": 0.0,
+     "baseline": 0.0
+    },
+    "unit": {
+     "arm": 0.0775,
+     "baseline": 0.0923
+    }
+   },
+   "sim_prompt": {
+    "arm_mean": 0.83903,
+    "baseline_mean": 0.83782,
+    "n": 450
+   },
+   "wer_qwen": {
+    "arm_mean": 0.07199,
+    "baseline_mean": 0.11065,
+    "n": 450
+   },
+   "wer_qwen_canon": {
+    "arm_mean": 0.07005,
+    "baseline_mean": 0.10783,
+    "n": 450
+   },
+   "wer_whisper_canon": {
+    "arm_mean": 0.07778,
+    "baseline_mean": 0.12131,
+    "n": 450
+   }
+  },
+  "reference_rl": {
+   "per_category_wer_qwen_canon": {
+    "abbr": {
+     "arm": 0.037,
+     "baseline": 0.0349
+    },
+    "date": {
+     "arm": 0.0036,
+     "baseline": 0.0481
+    },
+    "homograph": {
+     "arm": 0.0,
+     "baseline": 0.0
+    },
+    "long": {
+     "arm": 0.0572,
+     "baseline": 0.0536
+    },
+    "money": {
+     "arm": 0.312,
+     "baseline": 0.24
+    },
+    "name": {
+     "arm": 0.2283,
+     "baseline": 0.2385
+    },
+    "natural_long": {
+     "arm": 0.0163,
+     "baseline": 0.0193
+    },
+    "number": {
+     "arm": 0.1089,
+     "baseline": 0.2267
+    },
+    "twister": {
+     "arm": 0.0,
+     "baseline": 0.0
+    },
+    "unit": {
+     "arm": 0.1046,
+     "baseline": 0.0923
+    }
+   },
+   "pin_problems": [],
+   "sim_prompt": {
+    "arm_mean": 0.8343,
+    "baseline_mean": 0.83782,
+    "n": 450
+   },
+   "wer_qwen": {
+    "arm_mean": 0.09523,
+    "baseline_mean": 0.11065,
+    "n": 450
+   },
+   "wer_qwen_canon": {
+    "arm_mean": 0.09798,
+    "baseline_mean": 0.10783,
+    "n": 450
+   },
+   "wer_whisper_canon": {
+    "arm_mean": 0.11806,
+    "baseline_mean": 0.12131,
+    "n": 450
+   }
+  }
+ },
+ "n_clusters": 38,
+ "n_items": 450,
+ "registration": "<runtime>/gate/registration-v2.yaml",
+ "registration_id": "mm-a11-tts-wer-superiority-v2",
+ "registration_sha256": "sha256:e61ce5745a93476a947a5160fb20e1527e7e33708507ec5c3c5bd314744b313a",
+ "script_sha256": "sha256:7b815399aa6f01e6dc330fbf852bcb288fd3aa454cac6d6af47c78b026fa9c9a",
+ "verdict": "PASS"
+}

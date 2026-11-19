@@ -1,0 +1,29 @@
+# Area "TTS" fixture spec: Fun-CosyVoice3-0.5B LLM DPO gated against the base (test fixture; prototype, unpromotable).
+# Rendered by tests/_tts.py: {base} is the plain model directory (the baseline arm evaluates it), {data} the pairs
+# directory (one shard pairs.jsonl, pairs_meta.json), {items} the item set, {registration_sha256} the SHA-256 of the
+# rendered registration.yaml. One gate over two clauses (design revision 18), as launch/gate/spec.template.yaml.
+workflow: ext-tts-fixture
+version: 1
+budget: {gpu_hours: 24}
+artifacts:
+  base:         {type: model_checkpoint, uri: "file:{base}"}
+  data:         {type: training_dataset, uri: "file:{data}"}
+  items:        {type: item_set, uri: "file:{items}", disjoint_from: [data]}
+  trainer_cfg:  {type: trainer_config, uri: "file:trainer.yaml"}
+  registration: {type: registration, uri: "file:registration.yaml@sha256:{registration_sha256}"}
+stages:
+  - id: dpo
+    uses: dpo.cosyvoice3_llm@0.1
+    algorithm: dpo
+    model_family: tts.cosyvoice3@0.1
+    inputs: {model: base, data: data, config: trainer_cfg}
+    outputs: {model: dpo_ckpt}
+  - id: quality_gate
+    uses: gate.superiority@1.0
+    evaluator: [tts.wer_qwen_canon@0.1, tts.sim_prompt@0.1]
+    sampler: deployment
+    inputs: {model: dpo_ckpt, baseline: base, items: items, registration: registration}
+    test: {alpha: 0.025, power: 0.80, cluster_by: item, seeds: 1}
+    on_fail: stop
+    owner: skeleton-demo
+    escalation: [skeleton-demo-lead]

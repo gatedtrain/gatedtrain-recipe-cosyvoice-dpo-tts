@@ -1,0 +1,115 @@
+# Area 11 (TTS) pre-registration of the rerun under gatedtrain (design revision 18 form). prototype, unpromotable, unsigned.
+# NOT YET FROZEN: `created_at` is added right before the first GPU step of the rerun (launch/tts.sh gate-freeze
+# refuses a registration without it); any change after that is an amendment. The published rerun (2026-11-18) froze
+# this file under the project's earlier name (ptc-hub 0.2.0, registration_id mm-a11-tts-ptc-rerun-v1, workflow
+# mm-a11-tts-dpo-ptc; results/2026-11-18/gate/registration.yaml) and is carried forward by its amendment
+# registration-gatedtrain.yaml there; a new rerun freezes this file as it is now.
+#
+# What is gated: Fun-CosyVoice3-0.5B with the LLM (llm.pt) trained by sigmoid DPO (train_dpo.py, the published
+# settings: beta 0.1, lr 1e-6, 2 epochs, micro-batch 2 x accumulation 8, warm-up 10, clip 1.0, bf16, seed 11) on the
+# published run's 1,034 Whisper-WER-ranked pairs with its cached reference log-probs, against the base llm.pt, on the
+# 450 held-out items of runtime/items-hard-test (38 test_clean voices), one generation per item with eval seed 11.
+# The values are those of the published registration-v2 (results/2026-11-17/gate/registration-v2.yaml) in gatedtrain
+# fields; gatedtrain's planning gives n_required 283 (quality) and 71 (speaker_guard, non-inferiority planned at
+# d = theta + delta = 0.01; v2's comment said 63), both <= 450.
+#
+# Candidate (pre-registered, src/gatedtrain_recipe_cosyvoice_dpo_tts/select.py): every cut of the training run (steps 26, 52,
+# 78, 104, 130) and the base generate items-hard-dev (150 items) with seed 11 and are scored by score_tts.py; the cut
+# with the lowest mean dev wer_qwen_canon (score_tts.py summary.json, error rows skipped) is selected, a cut with an
+# error row only if every cut has one (fewest first), ties to the later step; the base is reported only. gatedtrain gates
+# the last cut of a run: if the selected cut is the last, that run is collected; otherwise a new training launch with
+# --max-steps N (same settings, seed and inputs) is the run, and its last cut the candidate, without another dev
+# selection. Nothing of the test set is used for selection.
+#
+# Disclosure: this test set was already generated and scored in the published run (2026-11-17) for the base, an
+# earlier DPO candidate of the same recipe (llm_dpo.pt sha256:65cd9a45...) and the vendor's rl weights, and that gate's
+# result (PASS) and per-category means are published (RESULT.md). The rerun's candidate is new weights; the
+# registration's values are the ones fixed before that test set was first observed, unchanged.
+registration_version: 1
+registration_id: mm-a11-tts-gatedtrain-rerun-v1
+signed_by: prototype-unsigned
+workflow: mm-a11-tts-dpo-gatedtrain
+gate: quality_gate
+clauses:
+  - name: quality
+    evaluator: tts.wer_qwen_canon@0.1
+    type: superiority
+    metric: wer_qwen_canon
+    direction: lower_is_better
+    margin: 0.0
+    alpha: 0.025
+    power: 0.8
+    planning_effect: 0.02
+    sigma_plan: fixed
+    unit: item
+    samples_per_item: 1
+    eval_seeds: [11]
+    interval: cluster_bootstrap
+    cluster_key: speaker
+    bootstrap_variant: percentile
+    blocking: true
+  - name: speaker_guard
+    evaluator: tts.sim_prompt@0.1
+    type: non_inferiority
+    metric: sim_prompt
+    direction: higher_is_better
+    margin: 0.01
+    alpha: 0.025
+    power: 0.8
+    planning_effect: 0.0
+    sigma_plan: fixed
+    unit: item
+    samples_per_item: 1
+    eval_seeds: [11]
+    interval: cluster_bootstrap
+    cluster_key: speaker
+    bootstrap_variant: percentile
+    blocking: true
+multiplicity:
+  plan: all_clauses_must_pass
+margin_justification: >-
+  quality: superiority, delta_sup = 0 (fewer reading errors than the base). speaker_guard: the candidate may be at most
+  0.01 lower in ECAPA cosine similarity to the voice prompt (dev SD of paired differences 0.0255; base dev mean 0.832).
+sigma_pilot:
+  quality:
+    sigma: 0.12
+    source: dev paired differences base vs the published final weights, SD 0.0993 over 150 items, rounded up
+  speaker_guard:
+    sigma: 0.03
+    source: dev paired differences base vs the published final weights, SD 0.0255 over 150 items, rounded up
+baseline_pilot_mean:
+  quality: 0.0668
+  speaker_guard: 0.832
+construct_alignment: >-
+  wer_qwen_canon is the training reward's formula (canon-1 WER against the item's reference) computed with another ASR,
+  Qwen3-ASR-1.7B, which never scored a training candidate. A pass shows fewer ASR-judged reading errors on these
+  categories (numbers, money, units, dates, abbreviations, names, long sentences) that transfer to an independent ASR
+  on held-out texts and voices, not a general naturalness gain; the two ASRs can share biases. The deciding ASR was used
+  on the dev set for checkpoint selection. The test texts come from the same kind of programmatic templates as the
+  training texts (disjoint templates and lexicon) plus held-out LibriTTS-R test_clean sentences. This test set was
+  already scored for an earlier candidate of this recipe (published 2026-11-17).
+eval_distribution:
+  item_set_hash: "sha256:b4d2fed80f33a5e1c53714589b4bf8285ebc4c7f4e4a36e5589aa4f587b63dc2"
+sampler:
+  decoding: "CosyVoice3LM.inference with cosyvoice3.yaml ras_sampling (top_p 0.8, top_k 25, win_size 10, tau_r 0.1)"
+  mode: "zero-shot, stream false, speed 1.0"
+  prompt: "You are a helpful assistant.<|endofprompt|> + prompt_text; prompt audio prompt_wav"
+  text_frontend: false
+  seed_rule: "set_all_random_seed(derive_seed('tts', eval_seed, item))"
+  flow_and_vocoder: "the base directory's flow.pt and hift.pt"
+  code: "gen_tts.py sha256:8f4d5c0796e21afdaa3e45e19f5f76188939af9209e11c0d4e23f962e737d4fc, src/CosyVoice@074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc"
+evaluators:
+  - id: tts.wer_qwen_canon@0.1
+    manifest_hash: "sha256:c6538b740d382669eed621e42c4aa30c71907fcd5ba7be227106a48a8620ffb6"
+  - id: tts.sim_prompt@0.1
+    manifest_hash: "sha256:c4dbb7d019c737b07b6c3ba09213a197f2a248a7ae90426b4ff94808c906c992"
+analysis_code_version: gatedtrain 0.3.0
+bootstrap:
+  replicates: 10000
+  seed: 20261117
+pairing:
+  max_unpaired: 0
+min_paired: 10
+contamination:
+  allow_exact_overlap: false
+post_hoc: false

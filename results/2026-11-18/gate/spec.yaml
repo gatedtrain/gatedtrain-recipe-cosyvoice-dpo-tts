@@ -1,0 +1,29 @@
+# Area 11 (TTS) spec of the rerun under ptc-hub (design revision 18: one gate over two clauses). Rendered into
+# <out>/gate/spec.yaml by launch/tts.sh gate-freeze, beside the frozen registration.yaml, a trainer.yaml and a link
+# `runtime` to the prepared runtime directory; paths are relative to that directory. 522c3f0cafb81ecd22f7fc0e651a795a462ef1b0f427dcfd7e8de87c0b830988 is the
+# SHA-256 of the frozen registration.yaml.
+workflow: mm-a11-tts-dpo-ptc
+version: 1
+budget: {gpu_hours: 24}
+artifacts:
+  base:         {type: model_checkpoint, uri: "file:runtime/models/fun-cosyvoice3-0.5b-2512"}
+  data:         {type: training_dataset, uri: "file:../inputs/pairs"}
+  items:        {type: item_set, uri: "file:runtime/items-hard-test", disjoint_from: [data]}
+  trainer_cfg:  {type: trainer_config, uri: "file:trainer.yaml"}
+  registration: {type: registration, uri: "file:registration.yaml@sha256:522c3f0cafb81ecd22f7fc0e651a795a462ef1b0f427dcfd7e8de87c0b830988"}
+stages:
+  - id: dpo
+    uses: dpo.cosyvoice3_llm@0.1
+    algorithm: dpo
+    model_family: tts.cosyvoice3@0.1
+    inputs: {model: base, data: data, config: trainer_cfg}
+    outputs: {model: dpo_ckpt}
+  - id: quality_gate
+    uses: gate.superiority@1.0
+    evaluator: [tts.wer_qwen_canon@0.1, tts.sim_prompt@0.1]
+    sampler: deployment
+    inputs: {model: dpo_ckpt, baseline: base, items: items, registration: registration}
+    test: {alpha: 0.025, power: 0.80, cluster_by: item, seeds: 1}
+    on_fail: stop
+    owner: ptc-recipe-cosyvoice-dpo-tts
+    escalation: [ptc-recipe-maintainers]

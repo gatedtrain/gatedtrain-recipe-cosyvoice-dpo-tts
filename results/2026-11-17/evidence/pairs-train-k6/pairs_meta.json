@@ -1,0 +1,94 @@
+{
+ "candidates": "<out>/cand-train-k6",
+ "candidates_sha256": "sha256:2e6abdf90fa72352c078a86ef31385052706b8e46ce805de53239b6412334483",
+ "canon_version": "canon-1",
+ "items": "<runtime>/items-hard-train",
+ "items_sha256": "sha256:bcd7909438786169c3a0023cf2ab5a0553b09b765269cee369c7e6c5abad4488",
+ "k": 6,
+ "margin": 0.05,
+ "max_ratio": 2.5,
+ "min_ratio": 0.5,
+ "pairs_sha256": "sha256:bc81b5b065de52191a62c5885533317a1b790c6fd7f09f1eb088284a3504d0b9",
+ "reward_asr": "whisper-large-v3-turbo",
+ "rewards": "<out>/reward-train-k6",
+ "rewards_sha256": "sha256:7334317a81c5d1829f34a2333a755a41152114fa3a39e86ed61fe399177cc6a3",
+ "sampling_seed": 11,
+ "script_sha256": "sha256:67ed70b4a960e576601f880c385e09567d3920f08609ecdd78833c7ae8bb8d2d",
+ "stats": {
+  "candidate_checks": {
+   "duration": 4,
+   "ok": 11993,
+   "reward_error": 3
+  },
+  "candidates": 12000,
+  "chars_per_second": {
+   "abbr": 10.035,
+   "date": 8.758,
+   "homograph": 14.875,
+   "long": 15.484,
+   "money": 7.635,
+   "name": 9.712,
+   "natural_long": 16.632,
+   "number": 7.488,
+   "twister": 9.253,
+   "unit": 8.659
+  },
+  "chars_per_second_overall": 9.643,
+  "item_drops": {
+   "all_zero": 614,
+   "below_margin": 352
+  },
+  "items": 2000,
+  "margin_quantiles": {
+   "p10": 0.0833,
+   "p50": 0.2,
+   "p90": 0.4444
+  },
+  "mean_wer_chosen": 0.0454,
+  "mean_wer_rejected": 0.2743,
+  "pair_yield": 0.517,
+  "pairs": 1034,
+  "per_category": {
+   "abbr": {
+    "items": 228,
+    "pairs": 58
+   },
+   "date": {
+    "items": 228,
+    "pairs": 71
+   },
+   "homograph": {
+    "items": 4,
+    "pairs": 0
+   },
+   "long": {
+    "items": 227,
+    "pairs": 108
+   },
+   "money": {
+    "items": 228,
+    "pairs": 172
+   },
+   "name": {
+    "items": 227,
+    "pairs": 216
+   },
+   "natural_long": {
+    "items": 400,
+    "pairs": 51
+   },
+   "number": {
+    "items": 227,
+    "pairs": 200
+   },
+   "twister": {
+    "items": 4,
+    "pairs": 0
+   },
+   "unit": {
+    "items": 227,
+    "pairs": 158
+   }
+  }
+ }
+}

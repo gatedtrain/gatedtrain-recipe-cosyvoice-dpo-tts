@@ -1,0 +1,36 @@
+{
+ "categories": {
+  "abbr": 51,
+  "date": 51,
+  "homograph": 4,
+  "long": 50,
+  "money": 50,
+  "name": 50,
+  "natural_long": 90,
+  "number": 50,
+  "twister": 4,
+  "unit": 50
+ },
+ "checked_disjoint_from": [
+  {
+   "dir": "items-hard-train",
+   "items_sha256": "sha256:bcd7909438786169c3a0023cf2ab5a0553b09b765269cee369c7e6c5abad4488"
+  }
+ ],
+ "items_sha256": "sha256:33cf0b871919d49889fd8def5af33f58a532b82dc7871bbf952931e13c98d090",
+ "limit_speakers": null,
+ "max_natural_words": 70,
+ "n_hard": 360,
+ "n_items": 450,
+ "n_natural": 90,
+ "n_ref_text": 50,
+ "n_speakers": 38,
+ "natural_split": "test_clean",
+ "preset": "test",
+ "script_sha256": "sha256:8bf0d9cf1900422db125f5a9cd0078c9f372d7a7ad073a5cce4b9db44cea9773",
+ "seed": 11,
+ "set": "test",
+ "sources": "programmatic templates (this script); LibriTTS-R (OpenSLR 141, CC BY 4.0)",
+ "text_split": "test",
+ "voice_split": "test_clean"
+}

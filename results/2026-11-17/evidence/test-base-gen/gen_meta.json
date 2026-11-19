@@ -1,0 +1,23 @@
+{
+ "code": "src/CosyVoice@074ca6dc9e80a2f424f1f74b48bdd7d3fea531cc",
+ "files_sha256": {
+  "campplus.onnx": "sha256:a6ac6a63997761ae2997373e2ee1c47040854b4b759ea41ec48e4e42df0f4d73",
+  "cosyvoice3.yaml": "sha256:f5a6b2c6f05139d0f18861a1fe506f751e787026b77c05f7e8fef9f8a4405965",
+  "flow.pt": "sha256:a6fab32a7825e5b0bc855ddd948f8db9370b0a786fbc249caa4595e95b608e4b",
+  "hift.pt": "sha256:b279d7641eb97ae55b3b540cfba4f953c26492a2df758328a89a4d007ab87a65",
+  "speech_tokenizer_v3.onnx": "sha256:23236a74175dbdda47afc66dbadd5bcb41303c467a57c261cb8539ad9db9208d"
+ },
+ "items": "<runtime>/items-hard-test",
+ "items_sha256": "sha256:33cf0b871919d49889fd8def5af33f58a532b82dc7871bbf952931e13c98d090",
+ "llm": "base",
+ "llm_sha256": "sha256:69f43bd545131c30e98947fb360ea8b4dc9916d8e83dded7757c7ea4f5a24970",
+ "load_seconds": 36.4,
+ "model_dir": "<runtime>/models/fun-cosyvoice3-0.5b-2512",
+ "n_items": 450,
+ "peak_gpu_gib": 3.63,
+ "peak_gpu_reserved_gib": 4.38,
+ "sample_rate": 24000,
+ "script_sha256": "sha256:8f4d5c0796e21afdaa3e45e19f5f76188939af9209e11c0d4e23f962e737d4fc",
+ "seed": 11,
+ "text_frontend": false
+}

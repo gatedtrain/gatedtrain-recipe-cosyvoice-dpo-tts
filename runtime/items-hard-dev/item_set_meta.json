@@ -1,0 +1,38 @@
+{
+ "categories": {
+  "abbr": 18,
+  "date": 17,
+  "long": 17,
+  "money": 17,
+  "name": 17,
+  "natural_long": 30,
+  "number": 17,
+  "unit": 17
+ },
+ "checked_disjoint_from": [
+  {
+   "dir": "items-hard-train",
+   "items_sha256": "sha256:bcd7909438786169c3a0023cf2ab5a0553b09b765269cee369c7e6c5abad4488"
+  },
+  {
+   "dir": "items-hard-test",
+   "items_sha256": "sha256:33cf0b871919d49889fd8def5af33f58a532b82dc7871bbf952931e13c98d090"
+  }
+ ],
+ "items_sha256": "sha256:b9ac4220b723e351f5f49cac537d95cd873c4a9f05ec3a840a576393af1cb1a4",
+ "limit_speakers": null,
+ "max_natural_words": 70,
+ "n_hard": 120,
+ "n_items": 150,
+ "n_natural": 30,
+ "n_ref_text": 17,
+ "n_speakers": 38,
+ "natural_split": "dev_clean",
+ "preset": "dev",
+ "script_sha256": "sha256:8bf0d9cf1900422db125f5a9cd0078c9f372d7a7ad073a5cce4b9db44cea9773",
+ "seed": 11,
+ "set": "dev",
+ "sources": "programmatic templates (this script); LibriTTS-R (OpenSLR 141, CC BY 4.0)",
+ "text_split": "train",
+ "voice_split": "dev_clean"
+}

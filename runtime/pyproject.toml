@@ -1,0 +1,59 @@
+[project]
+name = "gatedtrain-recipe-cosyvoice-dpo-tts-runtime"
+version = "0.1.0"
+license = "Apache-2.0"
+description = "Area TTS runtime: Fun-CosyVoice3-0.5B generation and DPO on its LLM speech tokens (prototype)."
+requires-python = ">=3.12,<3.13"
+# CosyVoice (src/CosyVoice @ 074ca6dc, Apache-2.0) requirements.txt without the serving and web parts (gradio,
+# fastapi, uvicorn, grpcio, TensorRT, DeepSpeed). torch moves from 2.3.1+cu121 to 2.5.1+cu124 so that it
+# shares CUDA 12 and cuDNN 9 with onnxruntime-gpu 1.20.0 from PyPI (the speech tokenizer and campplus are ONNX).
+dependencies = [
+    "torch==2.5.1",
+    "torchaudio==2.5.1",
+    "transformers==4.51.3",
+    "onnxruntime-gpu==1.20.0",
+    "onnx==1.16.0",
+    "conformer==0.3.2",
+    "diffusers==0.29.0",
+    "hydra-core==1.3.2",
+    "HyperPyYAML==1.2.3",
+    "inflect==7.3.1",
+    "librosa==0.10.2",
+    "lightning==2.2.4",
+    "matplotlib==3.7.5",
+    "modelscope==1.20.0",
+    "networkx==3.1",
+    "numpy==1.26.4",
+    "omegaconf==2.3.0",
+    "openai-whisper==20250625",          # 20231117 pins triton < 3, which torch 2.5 cannot meet; CosyVoice only uses its log-mel
+    "protobuf==4.25.3",
+    "pyarrow==18.1.0",
+    "pydantic==2.7.0",
+    "pyworld==0.3.4",
+    "rich==13.7.1",
+    "soundfile==0.12.1",
+    "tensorboard==2.14.0",
+    "x-transformers==2.11.24",
+    "wetext==0.0.4",
+    "gdown==5.1.0",                         # imported at load by Matcha-TTS matcha/utils/utils.py
+    "wget==3.2",                            # same
+    "setuptools<81",                        # lightning 2.2.4 and others import pkg_resources at runtime
+]
+
+[tool.uv]
+package = false
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+exclude-newer = "2026-11-01T00:00:00Z"
+
+[[tool.uv.index]]
+name = "pytorch-cu124"
+url = "https://download.pytorch.org/whl/cu124"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu124" }
+torchaudio = { index = "pytorch-cu124" }
+
+# openai-whisper is an sdist whose build may import pkg_resources (setuptools < 81).
+[tool.uv.extra-build-dependencies]
+openai-whisper = ["setuptools<81"]

@@ -1,0 +1,25 @@
+{
+ "data": {
+  "dev_clean.tar.gz": {
+   "license": "CC BY 4.0 (LibriTTS-R, OpenSLR 141)",
+   "md5": "2c1f5312914890634cc2d15783032ff3",
+   "sha256": "02ea52de47ca670d7ad86e714a6c58b207660a3f8a371ad102156776d2262a0c",
+   "size": 1357352348,
+   "url": "https://www.openslr.org/resources/141/dev_clean.tar.gz"
+  },
+  "test_clean.tar.gz": {
+   "license": "CC BY 4.0 (LibriTTS-R, OpenSLR 141)",
+   "md5": "4d373d453eb96c0691e598061bbafab7",
+   "sha256": "d4a2a7cdeeb68a6cfd628559739879bcb29556364cc13f38413930d59369a7f1",
+   "size": 1294768623,
+   "url": "https://www.openslr.org/resources/141/test_clean.tar.gz"
+  },
+  "train_clean_100.tar.gz": {
+   "license": "CC BY 4.0 (LibriTTS-R, OpenSLR 141)",
+   "md5": "6df668d8f5f33e70876bfa33862ad02b",
+   "sha256": "6f0cef20fb1e72928f21f00711d8cda7acb2049fd1cef78c98e0c2db77de2547",
+   "size": 8129817509,
+   "url": "https://www.openslr.org/resources/141/train_clean_100.tar.gz"
+  }
+ }
+}

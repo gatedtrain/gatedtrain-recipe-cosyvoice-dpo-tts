@@ -1,0 +1,10 @@
+{
+ "items_sha256": "sha256:6136abb55a519f731c27edc6769e590f3a08bc88e884999e3007f1bbecab4e46",
+ "limit_speakers": 8,
+ "n_items": 14,
+ "n_speakers": 7,
+ "per_speaker": 2,
+ "seed": 11,
+ "source": "LibriTTS-R (OpenSLR 141, CC BY 4.0)",
+ "split": "dev_clean"
+}

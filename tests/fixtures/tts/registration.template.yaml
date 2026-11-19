@@ -1,0 +1,72 @@
+# Area "TTS" fixture registration (test fixture; prototype, unpromotable): launch/gate/registration.yaml's two clauses
+# at fixture size. Rendered by tests/_tts.py: {item_set_hash} is the manifest hash of the fixture item set, {sampler}
+# the registered sampler (rows.SAMPLER, as JSON flow), {wer_hash} and {sim_hash} the evaluators' identity hashes
+# (EXT-6). Planning: quality sigma 0.12, effect 0.05: n_required 46; speaker_guard sigma 0.02, non-inferiority margin
+# 0.01: ceil((2.8016 x 0.02 / 0.01)^2) = 32; both <= the scenario's 60 items (12 speakers).
+registration_version: 1
+registration_id: ext-tts-fixture-two-clauses-v1
+signed_by: prototype-unsigned
+workflow: ext-tts-fixture
+gate: quality_gate
+clauses:
+  - name: quality
+    evaluator: tts.wer_qwen_canon@0.1
+    type: superiority
+    metric: wer_qwen_canon
+    direction: lower_is_better
+    margin: 0.0
+    alpha: 0.025
+    power: 0.8
+    planning_effect: 0.05
+    sigma_plan: fixed
+    unit: item
+    samples_per_item: 1
+    eval_seeds: [11]
+    interval: cluster_bootstrap
+    cluster_key: speaker
+    bootstrap_variant: percentile
+    blocking: true
+  - name: speaker_guard
+    evaluator: tts.sim_prompt@0.1
+    type: non_inferiority
+    metric: sim_prompt
+    direction: higher_is_better
+    margin: 0.01
+    alpha: 0.025
+    power: 0.8
+    planning_effect: 0.0
+    sigma_plan: fixed
+    unit: item
+    samples_per_item: 1
+    eval_seeds: [11]
+    interval: cluster_bootstrap
+    cluster_key: speaker
+    bootstrap_variant: percentile
+    blocking: true
+multiplicity:
+  plan: all_clauses_must_pass
+margin_justification: Fixture values (superiority, delta_sup = 0; non-inferiority margin 0.01).
+sigma_pilot:
+  quality: {sigma: 0.12, source: fixture value}
+  speaker_guard: {sigma: 0.02, source: fixture value}
+construct_alignment: >-
+  wer_qwen_canon is the training reward's formula computed with another ASR, Qwen3-ASR-1.7B, which never scored a
+  training candidate. A pass shows that the reward's gain in ASR-judged reading accuracy transfers to an independent
+  ASR on held-out texts and voices, not a general naturalness gain.
+eval_distribution:
+  item_set_hash: "{item_set_hash}"
+sampler: {sampler}
+evaluators:
+  - id: tts.wer_qwen_canon@0.1
+    manifest_hash: "{wer_hash}"
+  - id: tts.sim_prompt@0.1
+    manifest_hash: "{sim_hash}"
+analysis_code_version: gatedtrain 0.3.0
+bootstrap:
+  replicates: 2000
+  seed: 20261117
+pairing:
+  max_unpaired: 0
+min_paired: 10
+contamination:
+  allow_exact_overlap: false

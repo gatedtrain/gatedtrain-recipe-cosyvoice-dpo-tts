@@ -1,0 +1,30 @@
+{
+ "categories": {
+  "abbr": 228,
+  "date": 228,
+  "homograph": 4,
+  "long": 227,
+  "money": 228,
+  "name": 227,
+  "natural_long": 400,
+  "number": 227,
+  "twister": 4,
+  "unit": 227
+ },
+ "checked_disjoint_from": null,
+ "items_sha256": "sha256:bcd7909438786169c3a0023cf2ab5a0553b09b765269cee369c7e6c5abad4488",
+ "limit_speakers": null,
+ "max_natural_words": 70,
+ "n_hard": 1600,
+ "n_items": 2000,
+ "n_natural": 400,
+ "n_ref_text": 227,
+ "n_speakers": 243,
+ "natural_split": "train_clean_100",
+ "preset": "train",
+ "script_sha256": "sha256:6f55fee9d0a7309ac4f9d196a4631182480d96bcf8d73d7de9ca533424d7bccd",
+ "seed": 11,
+ "sources": "programmatic templates (this script); LibriTTS-R (OpenSLR 141, CC BY 4.0)",
+ "text_split": "train",
+ "voice_split": "train_clean_100"
+}

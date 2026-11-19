@@ -1,0 +1,22 @@
+{
+ "canon_version": "canon-1",
+ "deciding_metric": "wer_qwen_canon",
+ "errors": 0,
+ "gen": "<out>/test-dpo-train-k6-final-gen",
+ "gen_jsonl_sha256": "sha256:85f5bd13273f5ca90c21d8aee021ac5a694152de8a4a2efda800e3ebb4f33f80",
+ "items": "<runtime>/items-hard-test",
+ "models": {
+  "qwen3-asr-1.7b": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+  "spkrec-ecapa-voxceleb": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "whisper-large-v3-turbo": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9"
+ },
+ "n": 450,
+ "script_sha256": "sha256:4a5f29d65cad7a9a22d1e0edd970c22a47c3d33193726ab67fb4b72600549d34",
+ "sim_prompt": 0.839,
+ "wer_qwen": 0.072,
+ "wer_qwen_canon": 0.0701,
+ "wer_real": null,
+ "wer_real_canon": null,
+ "wer_whisper": 0.0957,
+ "wer_whisper_canon": 0.0778
+}

@@ -1,0 +1,22 @@
+{
+ "canon_version": "canon-1",
+ "gen": "<out>/test-base-gen",
+ "gen_jsonl_sha256": "sha256:ce56778ceb30644b0654ea08d03b05c7fc99b00b39024a7607a0a16697ece6c3",
+ "items": "<runtime>/items-hard-test",
+ "items_sha256": "sha256:33cf0b871919d49889fd8def5af33f58a532b82dc7871bbf952931e13c98d090",
+ "models": {
+  "qwen3-asr-1.7b": "7278e1e70fe206f11671096ffdd38061171dd6e5",
+  "spkrec-ecapa-voxceleb": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "whisper-large-v3-turbo": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9"
+ },
+ "python": "3.12.16",
+ "script_sha256": "sha256:4a5f29d65cad7a9a22d1e0edd970c22a47c3d33193726ab67fb4b72600549d34",
+ "versions": {
+  "jiwer": "3.1.0",
+  "qwen-asr": "0.0.6",
+  "speechbrain": "1.1.2",
+  "torch": "2.8.0+cu128",
+  "transformers": "4.57.6"
+ },
+ "wer_canon_sha256": "sha256:54610fa0019d9955846d0fcaabc3774828e6c1b68c86f605831f778e7feb7b20"
+}

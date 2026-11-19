@@ -1,0 +1,30 @@
+[project]
+name = "gatedtrain-recipe-cosyvoice-dpo-tts-eval"
+version = "0.1.0"
+license = "Apache-2.0"
+description = "Area TTS evaluators: Qwen3-ASR-1.7B (deciding WER) and SpeechBrain ECAPA (speaker similarity), kept apart from the trained model's environment (prototype)."
+requires-python = ">=3.12,<3.13"
+# qwen-asr 0.0.6 (Apache-2.0) pins transformers 4.57.6; speechbrain 1.1.2 (Apache-2.0) needs torch >= 2.7.1. Both
+# conflict with the CosyVoice runtime (transformers 4.51.3, torch 2.5.1), hence a separate environment.
+dependencies = [
+    "torch==2.8.0",
+    "torchaudio==2.8.0",
+    "qwen-asr==0.0.6",
+    "speechbrain==1.1.2",
+    "soundfile==0.12.1",
+    "jiwer==3.1.0",
+]
+
+[tool.uv]
+package = false
+environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+exclude-newer = "2026-11-01T00:00:00Z"
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }

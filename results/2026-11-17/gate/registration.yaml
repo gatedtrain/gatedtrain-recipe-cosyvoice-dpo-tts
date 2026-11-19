@@ -1,0 +1,82 @@
+# Area 11 (TTS) pre-registration: Fun-CosyVoice3-0.5B, DPO on the LLM speech tokens (Whisper WER reward) against the
+# base llm.pt, on the held-out hard-text test set. Written before any test-set generation or scoring; nothing of the
+# test set has been generated or observed. prototype, unpromotable, unsigned.
+#
+# Area 11 has no ptc-hub adapter yet (it becomes a recipe repository); this file fixes the analysis in the field
+# vocabulary of 05 section 3.7 so the later ptc-hub registration can be checked against it byte for byte in values.
+# The analysis script that applies it is written after this file and pinned in the result; it must not change any
+# value here. Any later change is an amendment (new file, `amends` = SHA-256 of this file).
+#
+# Checkpoint selection used only the dev set (items-hard-dev: train templates, dev_clean voices): lowest mean
+# wer_qwen_canon among steps 26/52/78/104 and final -> final (0.0329 vs base 0.0668). Planning values come from the
+# dev paired differences (base vs final, 150 items): wer_qwen_canon mean -0.0339, SD 0.0993; sim_prompt mean -0.0001,
+# SD 0.0255.
+registration_version: 1
+created_at: "2026-11-17T16:28:01Z"
+registration_id: mm-a11-tts-wer-superiority-v1
+signed_by: prototype-unsigned
+workflow: mm-a11-tts-dpo
+gate: quality_gate
+arms:
+  baseline: {llm: base, llm_sha256: "sha256:69f43bd545131c30e98947fb360ea8b4dc9916d8e83dded7757c7ea4f5a24970"}
+  candidate:
+    llm: out/area11-tts/dpo-train-k6/llm_dpo.pt
+    llm_sha256: "sha256:65cd9a45463fa4af9d24e6ea2da61dae570a634978cc181feceb9e873346f794"
+  reference_descriptive:      # the vendor's RL weights: reported, never decides
+    llm: rl
+    llm_sha256: "sha256:74d34b01a80c7154670ae75ac372d1b1712c78bceae9f467eb9f1f6f61ec764f"
+clauses:
+  - name: quality
+    type: superiority
+    metric: wer_qwen_canon    # per-item WER of Qwen3-ASR-1.7B after canon-1 (wer_canon.py), not the reward ASR
+    direction: lower_is_better
+    margin: 0.0
+    alpha: 0.025              # one-sided
+    power: 0.8
+    planning_effect: 0.02
+    sigma_plan: 0.12          # dev SD 0.0993 rounded up; n_required = ceil(((1.95996+0.84162) x 0.12 / 0.02)^2) = 283 <= 450
+    blocking: true
+  - name: speaker_guard
+    type: non_inferiority
+    metric: sim_prompt        # ECAPA cosine similarity between the output and the voice prompt
+    direction: higher_is_better
+    margin: 0.01              # candidate may be at most 0.01 lower
+    alpha: 0.025
+    power: 0.8
+    sigma_plan: 0.03          # dev SD 0.0255 rounded up; n_required = 63 at a true difference of 0
+    blocking: true
+multiplicity:
+  plan: all_clauses_must_pass   # intersection-union: each clause at its own alpha, no adjustment
+mos_guard: >-
+  Not part of this gate: the MOS predictor (UTMOS22) is not installed (needs a pinned download). If added later it is
+  reported descriptively only, or registered in an amendment before it is computed on the test outputs.
+unit: item
+samples_per_item: 1
+eval_seeds: [11]              # gen_tts.py --seed 11 for every arm (same noise per item across arms)
+interval: cluster_bootstrap
+cluster_key: speaker          # 38 test_clean voices; items sharing a voice prompt are resampled together
+bootstrap:
+  replicates: 10000
+  seed: 20261117
+pairing:
+  max_unpaired: 0             # an item with a generation or scoring error in either arm fails the gate (no drops)
+eval_distribution:
+  items: area11-tts/items-hard-test
+  items_sha256: "sha256:33cf0b871919d49889fd8def5af33f58a532b82dc7871bbf952931e13c98d090"
+  n_items: 450
+  text_split: test
+  voice_split: test_clean
+  checked_disjoint_from: "items-hard-train sha256:bcd7909438786169c3a0023cf2ab5a0553b09b765269cee369c7e6c5abad4488"
+code:
+  gen_tts_sha256: "sha256:8f4d5c0796e21afdaa3e45e19f5f76188939af9209e11c0d4e23f962e737d4fc"
+  score_tts_sha256: "sha256:552ee513371374819ce176bca93de0962c9f69398e562d5502a2685837a28ebf"
+  wer_canon_sha256: "sha256:54610fa0019d9955846d0fcaabc3774828e6c1b68c86f605831f778e7feb7b20"
+  canon_version: canon-1
+  text_frontend: false
+shared_annotation: >-
+  The test texts come from the same programmatic templates as the training texts (disjoint strings, checked) plus
+  held-out LibriTTS-R test_clean sentences; the voices are held-out test_clean speakers. A pass shows fewer ASR-judged
+  reading errors on these categories (numbers, money, units, dates, abbreviations, names, long sentences), not a
+  general naturalness gain. Both the reward (Whisper) and the deciding ASR (Qwen3-ASR) can share biases; the deciding
+  ASR was never used for training or selection of training pairs (it was used on dev for checkpoint selection).
+post_hoc: false

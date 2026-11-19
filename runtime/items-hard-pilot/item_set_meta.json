@@ -1,0 +1,22 @@
+{
+ "categories": {
+  "abbr": 7,
+  "date": 7,
+  "homograph": 4,
+  "long": 6,
+  "money": 7,
+  "name": 7,
+  "natural_long": 10,
+  "number": 6,
+  "twister": 4,
+  "unit": 6
+ },
+ "items_sha256": "sha256:c68e12fa7c7826090c4bb2f20a431d91af2a1693a89a4e756841cc47f1a07e7c",
+ "n_items": 64,
+ "n_speakers": 38,
+ "natural_split": "dev_clean",
+ "seed": 7,
+ "sources": "programmatic templates (this script); LibriTTS-R (OpenSLR 141, CC BY 4.0)",
+ "text_split": "test",
+ "voice_split": "dev_clean"
+}

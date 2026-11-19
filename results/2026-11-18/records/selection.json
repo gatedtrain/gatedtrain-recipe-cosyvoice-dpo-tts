@@ -1,0 +1,52 @@
+{
+ "action": "train again with --max-steps 104; its last cut is the candidate",
+ "base": {
+  "errors": 0,
+  "sim_prompt": 0.832,
+  "wer_qwen_canon": 0.0668
+ },
+ "cuts": [
+  26,
+  52,
+  78,
+  104,
+  130
+ ],
+ "dev": {
+  "104": {
+   "errors": 0,
+   "n": 150,
+   "sim_prompt": 0.8304,
+   "wer_qwen_canon": 0.0366
+  },
+  "130": {
+   "errors": 0,
+   "n": 150,
+   "sim_prompt": 0.8324,
+   "wer_qwen_canon": 0.0383
+  },
+  "26": {
+   "errors": 0,
+   "n": 150,
+   "sim_prompt": 0.8302,
+   "wer_qwen_canon": 0.0524
+  },
+  "52": {
+   "errors": 0,
+   "n": 150,
+   "sim_prompt": 0.83,
+   "wer_qwen_canon": 0.0373
+  },
+  "78": {
+   "errors": 0,
+   "n": 150,
+   "sim_prompt": 0.8319,
+   "wer_qwen_canon": 0.0404
+  }
+ },
+ "last_step": 130,
+ "rule": "lowest mean dev wer_qwen_canon (score_tts.py summary.json, error rows skipped) among the run's cuts; a cut with an error row only if all have one (fewest first); ties to the later step; the base is reported only; a selected cut that is not the run's last is retrained with --max-steps N and that run's last cut is the candidate",
+ "run": "<out>/train-full",
+ "schema": "ptc_recipe_cosyvoice_dpo_tts.selection",
+ "selected_step": 104
+}

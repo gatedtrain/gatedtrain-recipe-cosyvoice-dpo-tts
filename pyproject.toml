@@ -1,0 +1,48 @@
+[project]
+name = "gatedtrain-recipe-cosyvoice-dpo-tts"
+version = "0.1.0"
+description = "gatedtrain recipe: Fun-CosyVoice3-0.5B DPO on the LLM speech tokens with a Whisper WER reward, gated on Qwen3-ASR WER with a speaker-similarity guard, with its gatedtrain adapter `cosyvoice_dpo` (prototype)."
+readme = "README.md"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+authors = [{name = "The gatedtrain Authors"}]
+requires-python = ">=3.12,<3.14"
+keywords = [
+    "post-training",
+    "gatedtrain",
+    "text-to-speech",
+    "cosyvoice",
+    "dpo",
+    "preference-optimization",
+    "speech-synthesis",
+    "evaluation",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+]
+# The package is pure Python (the pins, the gatedtrain adapter `cosyvoice_dpo`, the arm converter and the smoke record);
+# the training and evaluation environments are runtime/ and runtime/eval/ (each with its own pyproject.toml and uv.lock).
+dependencies = ["gatedtrain>=0.3,<0.4"]
+
+[project.urls]
+Homepage = "https://github.com/gatedtrain/gatedtrain-recipe-cosyvoice-dpo-tts"
+Source = "https://github.com/gatedtrain/gatedtrain-recipe-cosyvoice-dpo-tts"
+Issues = "https://github.com/gatedtrain/gatedtrain-recipe-cosyvoice-dpo-tts/issues"
+
+[project.entry-points."gatedtrain.adapters"]
+cosyvoice_dpo = "gatedtrain_recipe_cosyvoice_dpo_tts.rows:PLUGIN"
+
+[build-system]
+requires = ["setuptools>=78"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
