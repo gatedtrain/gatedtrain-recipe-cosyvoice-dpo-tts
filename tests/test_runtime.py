@@ -461,7 +461,15 @@ class TestPipeline(unittest.TestCase):
             items, _ = sc.read_items(self.items_dir)
             got = sc.run(cv, items, part, 4, 11, self.root / "src", cv.set_seed, log=lambda s: None)
         self.assertEqual(got, {"skipped": 7, "sampled": 1})
-        self.assertEqual(sorted((part / "candidates.jsonl").read_text().splitlines()), sorted(lines))
+
+        def rows(text_lines):
+            # every field but wall_seconds (a timing, different on each sampling) must match the first run's records
+            out = [json.loads(l) for l in text_lines]
+            for r in out:
+                del r["wall_seconds"]
+            return sorted(json.dumps(r, sort_keys=True) for r in out)
+
+        self.assertEqual(rows((part / "candidates.jsonl").read_text().splitlines()), rows(lines))
 
     def test_resume_skips_done_items_and_refuses_other_settings(self):
         with stubbed():
