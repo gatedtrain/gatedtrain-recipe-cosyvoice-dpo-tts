@@ -190,8 +190,8 @@ with mock.patch.dict(sys.modules, stub_modules(SAVED_KEYS)):
 mp = load("make_pairs.py")
 eval_arm = load("eval_arm.py")
 wer_canon = load("eval/wer_canon.py")
-sys.modules["wer_canon"] = wer_canon                     # score_tts imports it by name
-score_tts = load("eval/score_tts.py")
+with mock.patch.dict(sys.modules, {"wer_canon": wer_canon}):    # score_tts imports it by name (bound at import)
+    score_tts = load("eval/score_tts.py")
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -688,6 +688,17 @@ class TestEvalArmPlan(unittest.TestCase):
         self.assertEqual(rec["items_sha256"], eval_arm.sha256(RUNTIME / "items-hard-test" / "items.jsonl"))
         with self.assertRaisesRegex(SystemExit, "is not one of"):
             eval_arm.plan(types.SimpleNamespace(**{**vars(a), "item_set": "items-hard-train"}))
+
+
+class TestModuleIsolation(unittest.TestCase):
+    def test_no_script_or_stand_in_is_left_in_sys_modules(self):
+        # the scripts import gen_tts and wer_canon by name; this file registers them (and the stand-ins) only while
+        # it loads or runs the scripts, so no other test module, and no later import, finds this file's copies
+        for name in ("gen_tts", "wer_canon"):
+            self.assertFalse(name in sys.modules, f"{name} left in sys.modules")
+        for name in ("torch", "torchaudio", "jiwer"):
+            if name in sys.modules:
+                self.assertIsNotNone(getattr(sys.modules[name], "__file__", None), f"stand-in {name} left behind")
 
 
 if __name__ == "__main__":
