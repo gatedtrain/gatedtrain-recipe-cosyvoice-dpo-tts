@@ -36,23 +36,24 @@ flowchart LR
 through the steps). The steps, flags and arm files are explained in gatedtrain's
 [External runs](https://gatedtrain.github.io/gatedtrain/external-runs/) guide.
 
-## Result
+## Results
 
-Result (2026-11-18): **PASS**. The run was launched with `ext-launch` and collected with `ext-collect` of ptc-hub 0.2.0,
-the project's name before gatedtrain 0.3.0 (adapter `cosyvoice_dpo`, two-clause registration in design revision 18
-form), and re-judged with gatedtrain 0.3.0 under a version-only amendment with every statistic equal. The candidate is
-the last cut of a 104-step DPO run; the whole recipe took 3.00 GPU-hours on one RTX 4090. Both clauses are blocking, on
-450 held-out items:
+Two runs of this recipe passed. The 2026-11-18 run was launched with `ext-launch` and collected with `ext-collect`;
+the table shows its result. The candidate is the last cut of a 104-step DPO run, and the run took 3.00 GPU-hours on one
+RTX 4090. Both clauses are blocking, on 450 held-out items:
 
 | Clause | Metric | Base | DPO | Gate |
 |---|---|---|---|---|
 | quality: superiority | `wer_qwen_canon` (Qwen3-ASR-1.7B, lower is better) | 0.1078 | 0.0708 | **PASS**: improvement 0.0370, 95% interval [0.0250, 0.0496] |
 | speaker_guard: non-inferiority, margin 0.01 | `sim_prompt` (ECAPA cosine to the voice prompt, higher is better) | 0.8378 | 0.8393 | **PASS**: +0.0015, 95% interval [-0.0028, +0.0081] |
 
-An earlier run of the same recipe (2026-11-17), decided by the recipe's own analysis script and not collected by the
-framework, also passed (`wer_qwen_canon` 0.1078 to 0.0701, `sim_prompt` 0.8378 to 0.8390); `RESULT.md` keeps it and the
-disclosures. It also has both runs' verdicts, the checkpoint selections on the dev set and the GPU hours. A pass means
+An earlier run of the same recipe (2026-11-17, 14.95 GPU-hours on one RTX 4090), decided by the recipe's own analysis
+script and not collected by the framework, also passed (`wer_qwen_canon` 0.1078 to 0.0701, `sim_prompt` 0.8378 to
+0.8390). `RESULT.md` has both runs' verdicts, the checkpoint selections on the dev set, the disclosures and the GPU
+hours of each run. A pass means
 fewer ASR-judged reading errors on these texts, not a general naturalness gain; naturalness was not measured.
+
+History of the 2026-11-18 run: it was launched with `ext-launch` and collected with `ext-collect` of ptc-hub 0.2.0, the project's name before gatedtrain 0.3.0 (adapter `cosyvoice_dpo`, two-clause registration in design revision 18 form), and re-judged with gatedtrain 0.3.0 under a version-only amendment (not post hoc) with every statistic equal, so the verdict is PASS under both.
 
 The files under `results/2026-11-18/` (except the amendment files `gate/*-gatedtrain.yaml`) are byte copies of the run's files (the registration's SHA-256 is the one
 the gate report pins), except two with host paths replaced by `<runtime>` and `<out>`: `records/selection.json`
